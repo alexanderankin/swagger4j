@@ -1,0 +1,3 @@
+rootProject.name = 'swagger4j'
+includeBuild 'includeBuild'
+include 'swagger4j-model'

@@ -1,0 +1,64 @@
+import java.nio.file.Path
+
+plugins {
+    id 'conventions'
+    id 'java-library'
+}
+
+sourceSets {
+    generation {
+    }
+}
+
+configurations {
+    generationCompileOnly.extendsFrom(compileOnly)
+    generationAnnotationProcessor.extendsFrom(annotationProcessor)
+    generationImplementation.extendsFrom(implementation)
+}
+
+dependencies {
+    generationImplementation('org.jsonschema2pojo:jsonschema2pojo-core:1.1.2')
+    generationImplementation('org.slf4j:slf4j-simple')
+
+    // patch versions:
+    generationImplementation('com.fasterxml.jackson.core:jackson-databind:2.14.0')
+    generationImplementation('com.google.code.gson:gson:2.10.1')
+    //noinspection ALL
+    generationImplementation('org.yaml:snakeyaml:1.33')
+    api('com.fasterxml.jackson.core:jackson-annotations:2.14.0')
+}
+
+def generatedSchemaSrcPath = buildDir.toPath().resolve(Path.of('generated', 'sources', 'schema'))
+
+
+[2, 3].forEach { int version ->
+    tasks.register('generateSchemaV' + version, JavaExec) {
+        group 'generateSchema'
+        description 'generate schema model classes from schema version ' + version
+
+        classpath sourceSets.generation.runtimeClasspath
+        mainClass.set('GenerateModels')
+
+        def source = projectDir.toPath()
+                .resolve(Path.of('src', 'main', 'resources'))
+                .resolve("schemaV${version}.json")
+        systemProperty('source', source.toString())
+
+        def targetPackage = 'swagger4j.model.v' + version as String
+        systemProperty('targetPackage', targetPackage)
+        systemProperty('targetDirectory', generatedSchemaSrcPath.toString())
+
+        // caching
+        inputs.file(source)
+        outputs.dir(Path.of(generatedSchemaSrcPath.toString(), targetPackage.split('\\.')))
+    }
+}
+
+// one generation task to call the others
+tasks.register('generateSchema') {
+    dependsOn tasks.matching ({ it.group == 'generateSchema' } as Spec<Task>)
+}
+
+sourceSets.named(SourceSet.MAIN_SOURCE_SET_NAME).configure {
+    java.srcDir(generatedSchemaSrcPath)
+}
