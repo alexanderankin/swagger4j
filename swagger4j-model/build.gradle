@@ -37,7 +37,7 @@ def generatedSchemaSrcPath = buildDir.toPath().resolve(Path.of('generated', 'sou
         description 'generate schema model classes from schema version ' + version
 
         classpath sourceSets.generation.runtimeClasspath
-        mainClass.set('GenerateModels')
+        mainClass.set('generation.GenerateModels')
 
         def source = projectDir.toPath()
                 .resolve(Path.of('src', 'main', 'resources'))

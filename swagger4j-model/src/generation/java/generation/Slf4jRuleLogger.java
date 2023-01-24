@@ -1,3 +1,5 @@
+package generation;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -14,7 +16,7 @@ public class Slf4jRuleLogger extends AbstractRuleLogger {
     private Logger log;
 
     public Slf4jRuleLogger() {
-        this("Slf4jRuleLogger");
+        this("generation.Slf4jRuleLogger");
     }
 
     public Slf4jRuleLogger(String name) {

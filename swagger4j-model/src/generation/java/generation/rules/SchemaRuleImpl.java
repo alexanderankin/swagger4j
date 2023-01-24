@@ -1,4 +1,4 @@
-package org.jsonschema2pojo.rules;
+package generation.rules;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -6,6 +6,8 @@ import com.sun.codemodel.JClassContainer;
 import com.sun.codemodel.JType;
 import org.jsonschema2pojo.Jsonschema2Pojo;
 import org.jsonschema2pojo.Schema;
+import org.jsonschema2pojo.rules.RuleFactory;
+import org.jsonschema2pojo.rules.SchemaRule;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;

@@ -1,10 +1,11 @@
+package generation;
+
 import lombok.SneakyThrows;
 import org.jsonschema2pojo.DefaultGenerationConfig;
 import org.jsonschema2pojo.GenerationConfig;
 import org.jsonschema2pojo.Jsonschema2Pojo;
-import org.jsonschema2pojo.rules.CustomRuleFactory;
+import generation.rules.CustomRuleFactory;
 import org.jsonschema2pojo.rules.RuleFactory;
-import org.jsonschema2pojo.rules.SchemaRuleImpl;
 
 import java.io.File;
 import java.net.URL;
