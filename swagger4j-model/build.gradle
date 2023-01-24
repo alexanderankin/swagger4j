@@ -59,6 +59,8 @@ tasks.register('generateSchema') {
     dependsOn tasks.matching ({ it.group == 'generateSchema' } as Spec<Task>)
 }
 
+tasks.named('compileJava') { dependsOn 'generateSchema' }
+
 sourceSets.named(SourceSet.MAIN_SOURCE_SET_NAME).configure {
     java.srcDir(generatedSchemaSrcPath)
 }
